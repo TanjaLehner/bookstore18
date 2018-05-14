@@ -1,0 +1,7 @@
+<div class="ui middle aligned selection divided list">
+    <a *ngFor="let order of orders" class="item bs-orders" [order]="order" [routerLink]="order.id"></a>
+    <div *ngIf="!orders" class="ui active dimmer">
+        <div class="ui large text loader">Daten werden geladen...</div>
+    </div>
+    <p *ngIf="orders && !orders.length">Es wurden noch keine Bestellungen getätigt.</p>
+</div>

@@ -1,0 +1,10 @@
+<div class="ui middle aligned selection divided list">
+    <a *ngFor="let book of books" class="item bs-book-list-item" [book]="book" [routerLink]="'/books/' + book.isbn"></a>
+    <div *ngIf="!books" class="ui active dimmer">
+        <div class="ui large text loader">Daten werden geladen...</div>
+    </div>
+    <p *ngIf="books && !books.length">Es befinden sich derzeit keine Bücher im Warenkorb.</p>
+</div>
+<a *ngIf="authService.isLoggedIn() && books && books.length" class="ui tiny yellow labeled icon button" (click)="saveOrders()">
+    <i class="shop icon"></i> Bestellen
+</a>

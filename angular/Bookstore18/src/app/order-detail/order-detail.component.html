@@ -1,0 +1,22 @@
+<div class="ui middle aligned selection divided list" *ngIf="order">
+    <h1 class="ui header"> Bestellung vom {{ order.order_date }}</h1>
+    <div class="ui divider"></div>
+    <h4 class="ui header">Bücher</h4>
+    <a *ngFor="let book of order.books" class="item bs-book-list-item" [book]="book" [routerLink]="'/books/' + book.isbn"></a>
+</div>
+<div class="ui right floated grid">
+    <div class="right floated right aligned five wide column">
+        <div class="ui right floated segments">
+            <div class="ui horizontal right aligned segments">
+                <div class="ui segment">Summe netto: </div><div class="ui segment">{{ sum_netto }} €</div>
+            </div>
+            <div class="ui horizontal right aligned segments">
+                <div class="ui segment">     + MWST: </div><div class="ui segment">{{ mwst }} €</div>
+            </div>
+            <div class="ui horizontal right aligned segments">
+                <div class="ui black segment"><h4>Gesamtsumme: </h4></div><div class="ui black segment"><h4>{{ sum_brutto }} €</h4></div>
+            </div>
+        </div>
+    </div>
+</div>
+

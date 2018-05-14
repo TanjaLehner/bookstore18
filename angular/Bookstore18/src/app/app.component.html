@@ -1,0 +1,10 @@
+<!--routerLink verweist auf URL welche in app-routing.module einer Komponente zugewisen ist-->
+<div class="ui {{isLoggedIn() ?'six':'four'}} item tabs menu">
+  <a routerLink="home"  routerLinkActive="active" class="item">Home</a>
+  <a routerLink="books" routerLinkActive="active" class="item">Bücher</a>
+  <a routerLink="cart" routerLinkActive="active" class="item">Warenkorb</a>
+  <a *ngIf="isAdmin()"  routerLink="admin" routerLinkActive="active" class="item">Administration</a>
+  <a *ngIf="isLoggedIn()" routerLink="orders/{{getCurrentUserId()}}" routerLinkActive="active" class="item">Bestellungen</a>
+  <a routerLink="login" routerLinkActive="active" class="item">{{getLoginLabel()}}</a>
+</div>
+<router-outlet></router-outlet>

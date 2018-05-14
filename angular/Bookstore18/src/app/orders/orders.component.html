@@ -1,0 +1,9 @@
+<div class="content">
+    <div class="header">Bestellung vom {{ this.order.order_date }}</div>
+    <div class="metadata">
+       <span *ngFor="let book of this.order.books; last as l">
+         {{ book.title }}<span *ngIf="!l">, </span>
+       </span>
+    </div>
+    <div class="description">Gesamtpreis brutto: {{ this.sum_brutto }} €</div>
+</div>

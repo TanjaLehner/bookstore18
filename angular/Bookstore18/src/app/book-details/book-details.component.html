@@ -1,0 +1,94 @@
+<div class="ui grid" *ngIf="book">
+  <div class="four wide column">
+    <img class="ui large image"
+         *ngIf="book.images && book.images[0]"
+         [src]="book.images[0].url">
+  </div>
+  <div class="twelve wide column">
+    <h1 class="ui header">{{ book?.title }} </h1>
+    <h3 class="ui header">{{ book?.subtitle }}</h3>
+    <div class="ui divider"></div>
+    <div class="ui grid">
+      <div class="three wide column">
+        <h4 class="ui header">Autoren</h4>
+        <span *ngFor="let author of book?.authors; last as l">
+         {{ author.firstName }} {{ author.lastName }}<span *ngIf="!l">, </span>
+       </span>
+      </div>
+      <div class="three wide column">
+        <h4 class="ui header">ISBN</h4>
+        {{ book?.isbn }}
+      </div>
+      <div class="three wide column">
+        <h4 class="ui header">Erschienen</h4>
+        {{ book?.published }}
+      </div>
+      <div class="three wide column">
+        <h4 class="ui header">Preis brutto</h4>
+        {{ toDecimal(book?.price_brutto) }} €
+      </div>
+      <div class="three wide column">
+        <h4 class="ui header" style="margin-bottom: 0;">Rating</h4>
+        <span *ngIf="!!ratings && ratings.length > 0"><i *ngFor="let i of getAvgRating()" class="yellow star icon"></i></span>
+        <span *ngIf="!!ratings && ratings.length === 0">noch keine Bewertungen</span>
+      </div>
+      <div class="four wide column">
+        <a class="ui tiny green labeled icon button"
+           (click)="addBookToCart()">
+          <i class="add icon"></i> In Warenkorb legen
+        </a>
+      </div>
+      <div class="four wide column">
+        <a *ngIf="isAdmin()" class="ui tiny yellow labeled icon button"
+           [routerLink]="['../../admin', book?.isbn]">
+          <i class="write icon"></i> Buch bearbeiten
+        </a>
+      </div>
+      <div class="four wide column">
+        <button *ngIf="isAdmin()" class="ui tiny red labeled icon button"
+                (click)="removeBook()">
+          <i class="remove icon"></i> Buch löschen
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="sixteen wide column">
+    <h3 class="ui header">Beschreibung</h3>
+    {{ book?.description }}
+  </div>
+  <div class="sixteen wide column">
+    <div class="ui small images">
+      <img *ngFor="let thumbnail of book?.images" [src]="thumbnail.url">
+    </div>
+  </div>
+
+  <div class="sixteen wide column">
+    <h3 class="ui header" *ngIf="ratings && ratings.length > 0">Bewertungen zu {{ book?.title }}</h3>
+    <div class="ui segments">
+      <div *ngFor="let rating of this.ratings;" class="ui segment">
+        <span><i *ngFor="let i of getRatingFromBook(rating)" class="yellow star icon"></i>
+          <span *ngIf="rating.comment">{{ rating.comment }}</span>
+        </span>
+        <div>von User {{rating.user_id}}</div>
+    </div>
+  </div>
+  </div>
+  <div *ngIf="authService.isLoggedIn()" class="eight wide column">
+    <h3 class="ui header">Bewerten</h3>
+    <form class="ui medium form" [formGroup]="myRatingForm" (ngSubmit)="submitRatingForm()">
+      <p>Geben Sie Ihre Bewertung an:</p>
+      <div class="field">
+        <div><input type="radio" formControlName="stars" value="1"> <i class="yellow star icon"></i></div>
+        <div><input type="radio" formControlName="stars" value="2"> <i class="yellow star icon"></i><i class="yellow star icon"></i></div>
+        <div><input type="radio" formControlName="stars" value="3"> <i class="yellow star icon"></i><i class="yellow star icon"></i><i class="yellow star icon"></i></div>
+        <div><input type="radio" formControlName="stars" value="4"> <i class="yellow star icon"></i><i class="yellow star icon"></i><i class="yellow star icon"></i><i class="yellow star icon"></i></div>
+        <div><input type="radio" formControlName="stars" value="5"> <i class="yellow star icon"></i><i class="yellow star icon"></i><i class="yellow star icon"></i><i class="yellow star icon"></i><i class="yellow star icon"></i></div>
+      </div>
+      <div class="field">
+        <label>Kommentar (optional)</label>
+        <textarea formControlName="comment" rows="3"></textarea>
+      </div>
+      <button type="submit" class="ui button" [disabled]="myRatingForm.invalid || alreadyRated()">Bewerten</button>
+    </form>
+  </div>
+</div>
